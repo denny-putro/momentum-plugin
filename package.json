@@ -1,7 +1,7 @@
 {
   "name": "momentum-plugin",
   "version": "1.0.0",
-  "description": "Momentum Plugin for TVLK Designers",
+  "description": "Momentum Plugin for Traveloka Designers",
   "main": "gulpfile.js",
   "scripts": {
     "build": "gulp --production",
@@ -14,7 +14,7 @@
     "css",
     "javascript"
   ],
-  "author": "ackyl",
+  "author": "Dimas Ackyl Mohamad",
   "license": "ISC",
   "devDependencies": {
     "@figma/plugin-typings": "^1.15.0",

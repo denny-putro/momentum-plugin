@@ -1,42 +1,43 @@
-//vars
-const createShapesButton = document.querySelector("#createShapes");
-const cancelButton = document.querySelector("#cancel");
+const findNodesButton = document.querySelector("#findNodesButton");
 const shapeMenu = document.querySelector("#shape");
 const countInput = document.querySelector("#count");
+const selectAll = document.querySelector("#selectAll");
 
-//on load function
+let selectedNodes = [];
+
 document.addEventListener("DOMContentLoaded", function () {
-  //   formValidation();
+  selectMenu.init();
+  disclosure.init();
 });
 
-//initialize select menu
-selectMenu.init();
-
-//event listeners
-countInput.oninput = () => {
-  //   formValidation();
-};
-shapeMenu.onchange = () => {
-  //   formValidation();
-};
-createShapesButton.onclick = () => {
-  createShapes();
-};
-cancelButton.onclick = () => {
-  cancel();
-};
-
-//form validation
-var formValidation = function (event) {
-  if (shapeMenu.value === "" || countInput.value === "") {
-    createShapesButton.disabled = true;
-  } else {
-    createShapesButton.disabled = false;
+document.body.addEventListener("click", function (event) {
+  if (event.target.type == "checkbox") {
+    selectNode(event.target.id);
   }
+});
+
+findNodesButton.onclick = () => {
+  findNodes();
 };
 
-//functions
-function createShapes() {
+selectAll.onclick = () => {
+  console.log("SELECT!");
+};
+
+const selectNode = (value) => {
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: "selectNode",
+        value: value,
+      },
+    },
+    "*"
+  );
+};
+
+// Posting messages to Main
+const findNodes = () => {
   parent.postMessage(
     {
       pluginMessage: {
@@ -46,21 +47,29 @@ function createShapes() {
     },
     "*"
   );
-}
+};
 
-function cancel() {
-  parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
-}
-
+// On receiving messages from Main
 onmessage = (event) => {
-  const elements = event.data.pluginMessage;
-  let messages = [];
+  const mainMessage = event.data.pluginMessage;
 
-  console.log(elements);
+  if (mainMessage.messageType == "search") {
+    let data = mainMessage.data;
+    let nodeList = [];
 
-  for (i = 0; i < elements.length; i++) {
-    messages.push(elements[i].name);
+    // Add search result list
+    for (i = 0; i < data.length; i++) {
+      let message = `
+        <div class="checkbox">
+          <input id="${data[i].id}" type="checkbox" class="checkbox__box">
+          <label for="${data[i].id}" class="checkbox__label">${data[i].name}</label>
+        </div>
+      `;
+
+      nodeList.push(message);
+    }
+
+    // Change the html layout
+    document.getElementById("searchResultLayout").innerHTML = nodeList.join("");
   }
-
-  document.getElementById("names").innerHTML = messages;
 };

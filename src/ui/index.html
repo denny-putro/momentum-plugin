@@ -10,36 +10,34 @@
     <link rel="stylesheet" href="./tmp/styles.css" />
     <!-- Your Styles -->
   </head>
+
   <body>
     <div class="p-xxsmall">
-      <!-- Select menu -->
-      <div class="label">Shape</div>
-      <select id="shape" class="select-menu mb-xxsmall">
-        <option value="">Please select a shape...</option>
-        <option value="square">Square</option>
-        <option value="triangle">Triangle</option>
-        <option value="circle">Circle</option>
-      </select>
-
-      <!-- Count input -->
-      <div class="label">Count</div>
-      <div class="input input--with-icon mb-xxsmall">
-        <div class="icon">#</div>
+      <!-- Input -->
+      <div class="label">Components Name</div>
+      <div class="input mb-xxsmall">
         <input id="count" type="input" class="input__field" value="Rectangle" />
       </div>
 
       <!-- Buttons -->
-      <div class="flex p-xxsmall mb-xsmall">
-        <button id="cancel" class="button button--secondary mr-xxsmall">
-          Cancel
-        </button>
-        <button id="createShapes" class="button button--primary">
-          Create shapes
+      <div class="flex mb-xxsmall">
+        <button id="findNodesButton" class="button button--primary">
+          Search
         </button>
       </div>
 
-      <!-- Example -->
-      <div id="names"></div>
+      <!-- Search Result -->
+      <div class="type ml-xxsmall mb-xsmall">
+        <p class="type--medium type--bold">Search Result</p>
+        <div class="flex">
+          <button id="selectAll" class="button button--primary">
+            Select All
+          </button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="searchResultLayout" class="ml-xxsmall">0 Results Found</div>
     </div>
 
     <script src="./tmp/scripts.js"></script>

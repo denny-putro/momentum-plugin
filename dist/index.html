@@ -2056,41 +2056,45 @@
     </style>
     <!-- Figma Plugin DS Styles -->
     <style>
-    /* Add your own scripts */
+    .text {
+      font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-normal);
+      letter-spacing: var(--font-letter-spacing-pos-xsmall);
+      line-height: var(--line-height);
+      color: var(--black);
+      padding: 0; }
 
     </style>
     <!-- Your Styles -->
   </head>
+
   <body>
     <div class="p-xxsmall">
-      <!-- Select menu -->
-      <div class="label">Shape</div>
-      <select id="shape" class="select-menu mb-xxsmall">
-        <option value="">Please select a shape...</option>
-        <option value="square">Square</option>
-        <option value="triangle">Triangle</option>
-        <option value="circle">Circle</option>
-      </select>
-
-      <!-- Count input -->
-      <div class="label">Count</div>
-      <div class="input input--with-icon mb-xxsmall">
-        <div class="icon">#</div>
+      <!-- Input -->
+      <div class="label">Components Name</div>
+      <div class="input mb-xxsmall">
         <input id="count" type="input" class="input__field" value="Rectangle" />
       </div>
 
       <!-- Buttons -->
-      <div class="flex p-xxsmall mb-xsmall">
-        <button id="cancel" class="button button--secondary mr-xxsmall">
-          Cancel
-        </button>
-        <button id="createShapes" class="button button--primary">
-          Create shapes
+      <div class="flex mb-xxsmall">
+        <button id="findNodesButton" class="button button--primary">
+          Search
         </button>
       </div>
 
-      <!-- Example -->
-      <div id="names"></div>
+      <!-- Search Result -->
+      <div class="type ml-xxsmall mb-xsmall">
+        <p class="type--medium type--bold">Search Result</p>
+        <div class="flex">
+          <button id="selectAll" class="button button--primary">
+            Select All
+          </button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="searchResultLayout" class="ml-xxsmall">0 Results Found</div>
     </div>
 
     <script>
@@ -2566,45 +2570,46 @@
     function helper() {
         console.log('testing');
     }
-    //vars
-    const createShapesButton = document.querySelector("#createShapes");
-    const cancelButton = document.querySelector("#cancel");
+    const findNodesButton = document.querySelector("#findNodesButton");
     const shapeMenu = document.querySelector("#shape");
     const countInput = document.querySelector("#count");
+    const selectAll = document.querySelector("#selectAll");
 
-    //on load function
+    let selectedNodes = [];
+
     document.addEventListener("DOMContentLoaded", function () {
-      //   formValidation();
+      selectMenu.init();
+      disclosure.init();
     });
 
-    //initialize select menu
-    selectMenu.init();
-
-    //event listeners
-    countInput.oninput = () => {
-      //   formValidation();
-    };
-    shapeMenu.onchange = () => {
-      //   formValidation();
-    };
-    createShapesButton.onclick = () => {
-      createShapes();
-    };
-    cancelButton.onclick = () => {
-      cancel();
-    };
-
-    //form validation
-    var formValidation = function (event) {
-      if (shapeMenu.value === "" || countInput.value === "") {
-        createShapesButton.disabled = true;
-      } else {
-        createShapesButton.disabled = false;
+    document.body.addEventListener("click", function (event) {
+      if (event.target.type == "checkbox") {
+        selectNode(event.target.id);
       }
+    });
+
+    findNodesButton.onclick = () => {
+      findNodes();
     };
 
-    //functions
-    function createShapes() {
+    selectAll.onclick = () => {
+      console.log("SELECT!");
+    };
+
+    const selectNode = (value) => {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: "selectNode",
+            value: value,
+          },
+        },
+        "*"
+      );
+    };
+
+    // Posting messages to Main
+    const findNodes = () => {
       parent.postMessage(
         {
           pluginMessage: {
@@ -2614,23 +2619,31 @@
         },
         "*"
       );
-    }
+    };
 
-    function cancel() {
-      parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
-    }
-
+    // On receiving messages from Main
     onmessage = (event) => {
-      const elements = event.data.pluginMessage;
-      let messages = [];
+      const mainMessage = event.data.pluginMessage;
 
-      console.log(elements);
+      if (mainMessage.messageType == "search") {
+        let data = mainMessage.data;
+        let nodeList = [];
 
-      for (i = 0; i < elements.length; i++) {
-        messages.push(elements[i].name);
+        // Add search result list
+        for (i = 0; i < data.length; i++) {
+          let message = `
+            <div class="checkbox">
+              <input id="${data[i].id}" type="checkbox" class="checkbox__box">
+              <label for="${data[i].id}" class="checkbox__label">${data[i].name}</label>
+            </div>
+          `;
+
+          nodeList.push(message);
+        }
+
+        // Change the html layout
+        document.getElementById("searchResultLayout").innerHTML = nodeList.join("");
       }
-
-      document.getElementById("names").innerHTML = messages;
     };
 
     </script>
