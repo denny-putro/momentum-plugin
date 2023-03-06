@@ -1,0 +1,94 @@
+.overlay {
+  background-color: black;
+  opacity: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.hide {
+    display: none;
+  }
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  background-color: var(--primary);
+  &__header {
+    font-size: 12px;
+    font-weight: 400;
+    width: 100%;
+    text-align: left;
+    color: white;
+    margin-bottom: 8px;
+  }
+  &__box {
+    display: flex;
+    width: 100%;
+  }
+  &__input {
+    border-radius: 4px;
+    border: none;
+    padding: 8px 4px;
+    width: 100%;
+    margin: 0 8px 0 0;
+    flex: 1;
+  }
+}
+
+.result {
+  padding: 8px;
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 16px 8px;
+    border-radius: 6px;
+    box-shadow: 0px 1px 2px rgba(3, 18, 26, 0.2);
+    margin-bottom: 8px;
+    background-color: white;
+  }
+  &__notfound {
+    font-size: 12px;
+    font-weight: 400;
+    padding-top: 4px;
+  }
+}
+
+.checkbox {
+  &__box {
+    margin-right: 8px;
+    cursor: pointer;
+  }
+  &__label {
+    font-size: 14px;
+    flex: 1;
+  }
+  &__search {
+    font-size: 12px;
+  }
+}
