@@ -3,43 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    <!-- Figma Plugin DS Styles -->
     <link rel="stylesheet" href="./tmp/styles.css" />
-    <!-- Your Styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
 
   <body>
-    <div class="p-xxsmall">
-      <!-- Input -->
-      <div class="label">Components Name</div>
-      <div class="input mb-xxsmall">
-        <input id="count" type="input" class="input__field" value="Rectangle" />
+    <!-- Search Section -->
+    <div class="search">
+      <p class="search__header">Components Name</p>
+      <div class="search__box">
+        <input
+          id="count"
+          type="input"
+          class="search__input"
+          value="Rectangle"
+        />
+        <button id="findNodesButton" class="button">Search</button>
       </div>
-
-      <!-- Buttons -->
-      <div class="flex mb-xxsmall">
-        <button id="findNodesButton" class="button button--primary">
-          Search
-        </button>
-      </div>
-
-      <!-- Search Result -->
-      <div class="type ml-xxsmall mb-xsmall">
-        <p class="type--medium type--bold">Search Result</p>
-        <div class="flex">
-          <button id="selectAll" class="button button--primary">
-            Select All
-          </button>
-        </div>
-      </div>
-
-      <!-- Test -->
-      Test
-
-      <!-- Result -->
-      <div id="searchResultLayout" class="ml-xxsmall">0 Results Found</div>
     </div>
+
+    <!-- Result Section -->
+    <div class="result">
+      <div id="searchResultLayout" class="ml-xxsmall"></div>
+    </div>
+
+    <!-- Loader -->
+    <div id="overlay" class="overlay hide"><div class="loader"></div></div>
 
     <script src="./tmp/scripts.js"></script>
   </body>
